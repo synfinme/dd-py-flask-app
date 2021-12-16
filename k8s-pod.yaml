@@ -9,3 +9,29 @@ spec:
     - /opt/scripts/flask-app.py
     image: synfinmelab/dd-py-flask-app:v0.1
     imagePullPolicy: IfNotPresent
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 5000
+        scheme: HTTP
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    env:
+    - name: DD_ENV
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.labels['tags.datadoghq.com/env']
+    - name: DD_SERVICE
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.labels['tags.datadoghq.com/service']
+    - name: DD_VERSION
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.labels['tags.datadoghq.com/version']
+    - name: DD_AGENT_HOST
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+    - name: DD_TRACE_AGENT_PORT
+      value: "8126"
