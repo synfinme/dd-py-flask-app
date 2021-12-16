@@ -2,6 +2,10 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: dd-py-flask-app
+  labels:
+    tags.datadoghq.com/env: "dev"
+    tags.datadoghq.com/service: "flask-app"
+    tags.datadoghq.com/version: "0.1"
 spec:
   containers:
   - name: flask-app
